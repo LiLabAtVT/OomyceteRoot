@@ -1,4 +1,4 @@
-**🧬 Immune Defense & Hormone Response — GO Enrichment**
+**🧬 Immune Defense & Hormone Response - GO Enrichment**
 
 This folder contains two R scripts that perform targeted Gene Ontology (GO) Biological Process enrichment on your single-nucleus RNA-seq results from Arabidopsis thaliana roots. One script focuses on immune/defense processes; the other focuses on hormone signaling (SA, JA, ET).
 
