@@ -52,12 +52,29 @@ Combine both genomes and their filtered annotation files into one reference usin
 ```bash
 /Cellranger_mkref_Multispecies.sh
 ```
-***4. Output***
+
+**Output**
 
 A new directory will be created:
 
 refdata-Arabidopsis_Pcapsici_MultiRef/
-This folder contains the combined indices and annotations required for read alignment and UMI counting.
+
+This step creates a Cell Ranger–compatible Host-Pathogen reference directory, which will be used in downstream quantification (Step 5).
+
+**4. Build the *Arabidopsis* Reference (ATH)**
+
+Use the *Arabidopsis thaliana* reference genome files — the FASTA (sequence) and GTF (annotation) — to build a single-species reference genome.
+This reference will be used later for:
+
+The filtered FASTQ files generated from the infected samples, and
+
+The original FASTQ files from the non-infected (Neg) samples.
+
+Run the following script to build the reference:
+
+Cellranger_mkref_ATH.sh
+
+This step creates a Cell Ranger–compatible Arabidopsis-only reference directory, which will be used in downstream quantification (Step 8).
 
 **🧫 Step 5: Run Cell Ranger Count for Infected Samples using Multi-Species Reference Genome**
 
