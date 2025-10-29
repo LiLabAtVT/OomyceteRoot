@@ -1,7 +1,7 @@
 
 🧬 **Single-nucleus transcriptome analysis of *Arabidopsis thaliana* roots infected with *Phytophthora capsici***
 
-Introduction
+**Introduction**
 
 Understanding how plant roots coordinate immune responses at the cellular level is fundamental for dissecting host–pathogen interactions. In this study, we employed single-nucleus RNA sequencing (snRNA-seq) to profile the Arabidopsis thaliana root transcriptome following infection with the oomycete pathogen *Phytophthora capsici*.
 
@@ -11,14 +11,14 @@ Comparative analyses between infected and mock samples highlighted the activatio
 
 Gene Ontology (GO) enrichment and marker gene expression profiling further revealed that immune responses to P. capsici are cell-type specific and involve distinct sets of defense-related genes. Together, this study provides a comprehensive reference for host transcriptional reprogramming during early stages of oomycete infection and establishes a framework for exploring plant–pathogen interactions at single-cell resolution.
 
-🧬 ** Mapping Single Nuclei RNA-seq Data**
+🧬 **Mapping Single Nuclei RNA-seq Data**
+
 Step 1: Build a Combined Reference Genome
 ./cellranger_mkref_Multiplespecies.sh
 ✅ Check that the output directory Arabidopsis_thaliana_and_Pcap has been created.
 
 Step 2: Run Cell Ranger on Raw Data
 Run the scripts:
-
 ./CellRanger_Neg24hi_1_scRNAseq.sh
 ./CellRanger_Pos24hpi_1_scRNAseq.sh
 
