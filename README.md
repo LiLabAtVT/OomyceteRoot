@@ -1,4 +1,4 @@
-🧬 Single-nucleus transcriptome analysis of Arabidopsis thaliana roots infected with Phytophthora capsici
+##🧬 Single-nucleus transcriptome analysis of Arabidopsis thaliana roots infected with Phytophthora capsici##
 Introduction
 
 Understanding how plant roots coordinate immune responses at the cellular level is fundamental for dissecting host–pathogen interactions. In this study, we employed single-nucleus RNA sequencing (snRNA-seq) to profile the Arabidopsis thaliana root transcriptome following infection with the oomycete pathogen Phytophthora capsici.
