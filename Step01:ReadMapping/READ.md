@@ -1,7 +1,5 @@
 **🌍 ReadMapping**
 
-**Build Multi-Species and Arabidopsis-Only Reference Genomes**
-
 To analyze host–pathogen single-nucleus RNA-seq data, two reference genomes are required:
 
 A multi-species reference for simultaneous mapping of host (Arabidopsis thaliana) and pathogen (Phytophthora capsici) reads.
