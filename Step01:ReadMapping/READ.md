@@ -1,11 +1,16 @@
-🌍 **Build Multi-Species Reference Genome**
+**🌍 ReadMapping**
+Build Multi-Species and Arabidopsis-Only Reference Genomes
 
-To analyze host–pathogen single-nucleus RNA-seq data, a combined reference genome must be created so that reads can be mapped to both *Arabidopsis thaliana* (host) and *Phytophthora capsici* (pathogen).
+To analyze host–pathogen single-nucleus RNA-seq data, two reference genomes are required:
 
-**Prepare the genome and annotation files**
-🧩 **Step 1: Download Pathogen Genome**
+A multi-species reference for simultaneous mapping of host (Arabidopsis thaliana) and pathogen (Phytophthora capsici) reads.
 
-Obtain *the Phytophthora capsici* genome from NCBI Datasets.
+An Arabidopsis-only reference (ATH) for host-specific quantification and downstream analysis.
+
+**🧩 Step 1: Download Pathogen Genome**
+
+Obtain the Phytophthora capsici genome from NCBI Datasets
+.
 
 Download both of the following files:
 
@@ -17,11 +22,13 @@ Example genome used in this project:
 
 GCA_016618375.1 – Phytophthora capsici genome
 
+
 Save both files in the designated reference directory before building the combined or species-specific reference.
 
-🌿 **Step 2: Download Host Genome**
+**🌿 Step 2: Download Host Genome**
 
-Download the host plant genome from Ensembl Plants.
+Download the Arabidopsis thaliana genome from Ensembl Plants
+.
 
 Obtain both of the following files:
 
@@ -33,94 +40,89 @@ Example genome used in this project:
 
 Arabidopsis thaliana – Ensembl Plants Release 59
 
+
 Store both files in your reference directory to prepare for single- or multi-species reference building.
 
+**🧬 Step 3: Filter the GTF File**
 
-**2.Filter the GTF file**
+Before building the reference, filter the Arabidopsis GTF annotation file to include only protein-coding genes, following 10x Genomics recommendations.
 
-Before building the reference, filter the GTF annotation file to include only protein-coding genes, following 10x Genomics recommendations:
+Run the script:
 ```bash
 Cellranger_Filtred_mkgtf.sh
 ```
 
-This produces a streamlined annotation file that improves mapping accuracy and reduces reference size.
+This step produces a simplified annotation file that improves mapping accuracy and reduces reference size.
 
-**3. Build the multi-species reference**
+**🧫 Step 4: Build the Multi-Species Reference Genome**
 
-Combine both genomes and their filtered annotation files into one reference using cellranger mkref:
+Combine both genomes and their filtered annotation files into one reference using Cell Ranger’s mkref function.
 
+Run the script:
 ```bash
-/Cellranger_mkref_Multispecies.sh
+Cellranger_mkref_Multispecies.sh
 ```
 
-**Output**
-
-A new directory will be created:
+Output:
 
 refdata-Arabidopsis_Pcapsici_MultiRef/
 
-This step creates a Cell Ranger–compatible Host-Pathogen reference directory, which will be used in downstream quantification (Step 5).
 
-**4. Build the *Arabidopsis* Reference (ATH)**
+This step creates a Cell Ranger–compatible Host–Pathogen reference directory, which will be used for infected samples during initial quantification (Step 5).
 
-Use the *Arabidopsis thaliana* reference genome files — the FASTA (sequence) and GTF (annotation) — to build a single-species reference genome.
+**🌱 Step 5: Build the Arabidopsis-Only Reference (ATH)**
+
+Use the Arabidopsis thaliana reference genome files — the FASTA (sequence) and GTF (annotation) — to build a single-species reference genome.
+
 This reference will be used later for:
 
-The filtered FASTQ files generated from the infected samples, and
+The filtered FASTQ files generated from infected samples (host-only reads).
 
-The original FASTQ files from the non-infected (Neg) samples.
+The original FASTQ files from non-infected (Neg) samples.
 
-Run the following script to build the reference:
-
+Run the script:
+```bash
 Cellranger_mkref_ATH.sh
+```
 
-This step creates a Cell Ranger–compatible Arabidopsis-only reference directory, which will be used in downstream quantification (Step 8).
+This creates a Cell Ranger–compatible Arabidopsis-only reference directory, used for downstream quantification (Step 8).
 
-**🧫 Step 5: Run Cell Ranger Count for Infected Samples using Multi-Species Reference Genome**
+**🧪 Step 6: Run Cell Ranger Count (Infected Samples, Multi-Species Reference)**
 
-This step performs read alignment and UMI quantification for each single-nucleus RNA-seq sample using the multi-species reference genome created in Step 4.
-The same reference allows simultaneous mapping to both Arabidopsis thaliana (host) and Phytophthora capsici (pathogen).
+Perform read alignment and UMI quantification using the multi-species reference built in Step 4.
 
-**1. Sample naming convention**
+Sample Naming Convention
 
-Neg → Non-infected (control) samples
+**Neg** → Non-infected (control) samples
 
-Pos → Infected samples (24 h post infection)
+**Pos** → Infected samples (24 h post infection)
 
-Example samples in this project:
+Example samples:
 
-Neg24hpi_1, Neg24hpi_2 → non-infected roots
-
+Neg24hpi_1, Neg24hpi_2 → non-infected roots  
 Pos24hpi_1, Pos24hpi_2 → infected roots
 
-**2. Run Cell Ranger Count**
-
-Use the following SLURM script for the infected sample sample:
+Run Scripts
+```bash
 CellRanger_Pos24hpi_1_scRNAseq_Multi_Genome.sh
 CellRanger_Pos24hpi_2_scRNAseq_Multi_Genome.sh
+```
 
-This script executes the cellranger count command, specifying the appropriate sample FASTQ path and the multi-reference genome generated in Step 4.
+Each script executes cellranger count, specifying the sample FASTQ path and the multi-species reference.
 
-**🧬 Step 6: Separate Host vs Pathogen Barcodes (Infected samples: Pos24hpi_1, Pos24hpi_2)**
+**🧬 Step 7: Separate Host vs Pathogen Barcodes (Infected Samples)**
 
-After cellranger count (Step 5), each infected sample directory contains:
+After running Cell Ranger (Step 6), each infected sample directory contains:
 
-outs/filtered_feature_bc_matrix/ — matrix for downstream analysis,
+outs/filtered_feature_bc_matrix/ — filtered matrix
 
-outs/*.bam — alignments (used later),
+outs/*.bam — aligned reads
 
-outs/gem_classification_<SAMPLE>.csv — per-barcode species call (Arabidopsis thaliana, Pcap, or Multiplet). 
-10x Genomics
-+2
-10x Genomics
-+2
+outs/gem_classification_<SAMPLE>.csv — per-barcode species calls (Arabidopsis thaliana, Pcap, or Multiplet)
 
-Do this for both infected samples to create organism-specific barcode lists.
-
-Commands (run from the folder containing the gem_classification_*.csv files)
+Run the following commands to extract barcodes by species:
 
 ```bash
-# list the infected (Pos) samples you want to process
 SAMPLES=("Pos24hpi_1" "Pos24hpi_2")
 
 for S in "${SAMPLES[@]}"; do
@@ -134,106 +136,68 @@ for S in "${SAMPLES[@]}"; do
   awk -F',' 'NR > 1 && $4 == "Pcap" { print $1 }' \
     "${CSV}" > "${S}_pcap_barcodes.txt"
 
-  # Multiplets: mixed droplets
+  # Multiplets
   awk -F',' 'NR > 1 && $4 == "Multiplet" { print $1 }' \
     "${CSV}" > "${S}_multiplet_barcodes.txt"
-
-  echo "Wrote ${S}_arabidopsis_barcodes.txt, ${S}_pcap_barcodes.txt, ${S}_multiplet_barcodes.txt"
 done
 ```
 
-What this does
+Output files per sample:
 
--F',' treats the CSV as comma-separated,
-
-NR > 1 skips the header,
-
-$4 selects the call column to filter Arabidopsis_thaliana, Pcap, or Multiplet,
-
-$1 prints the barcode (GEM) ID.
-
-Outputs created per sample
-```bash
 Pos24hpi_1_arabidopsis_barcodes.txt
 Pos24hpi_1_pcap_barcodes.txt
 Pos24hpi_1_multiplet_barcodes.txt
 Pos24hpi_2_arabidopsis_barcodes.txt
 Pos24hpi_2_pcap_barcodes.txt
 Pos24hpi_2_multiplet_barcodes.txt
-```
 
-**Notes**
-GEM classification and the gem_classification.csv file are standard outputs for mixed-species (“barnyard”) analyses in Cell Ranger. 
+**🧪 Step 8: Generate Organism-Specific BAM and FASTQ Files**
 
-**🧪 Step 7: Generate Organism-Specific BAM and FASTQ Files**
+Use the barcode lists (Step 7) to filter the original BAMs and generate organism-specific FASTQ files.
 
-Goal
-Use the barcodes extracted in Step 6 to filter the original Cell Ranger BAM files and create separate BAM / FASTQ files for host (Arabidopsis thaliana) and pathogen (Phytophthora capsici) reads.
-This enables downstream analysis of each organism individually.
-
-**1. Install Required Tools**
-
-Download the official 10x Genomics utilities (Linux binaries):
-
-bamtofastq – https://github.com/10XGenomics/bamtofastq/releases
-
-subset-bam – https://github.com/10XGenomics/subset-bam/releases
-
-Add both executables to your $PATH.
-
-**2. Filter BAM Files by Barcode**
-
-Run the following script for each infected sample (Pos24hpi_1, Pos24hpi_2):
-
+Run:
 ```bash
-/Filter_and_convert_10X.sh
+Filter_and_convert_10X.sh
 ```
 
-💡 subset-bam retains only the reads whose cell barcodes match the ones listed in each file produced in Step 6.
+Tools required:
 
-💡 Each conversion produces a set of *_R1.fastq.gz, *_R2.fastq.gz, and *_I1.fastq.gz files for downstream processing.
+subset-bam
 
-**3. Outputs**
+bamtofastq
 
-Per infected sample you will obtain:
+Output directories:
 
-Pos24hpi_1_Arabidopsis_filtered.bam
-Pos24hpi_1_Pcap_filtered.bam
-Pos24hpi_2_Arabidopsis_filtered.bam
-Pos24hpi_2_Pcap_filtered.bam
 Pos24hpi_1_Arabidopsis_fastq/
 Pos24hpi_1_Pcap_fastq/
 Pos24hpi_2_Arabidopsis_fastq/
 Pos24hpi_2_Pcap_fastq/
 
-**🌱 Step 8: Quantify Using Arabidopsis-Only Reference**
+**🌾 Step 9: Quantify Using Arabidopsis-Only Reference**
 
-We now quantify reads only against the Arabidopsis thaliana reference (built in Step 3).
+Quantify host reads only against the Arabidopsis reference created in Step 5.
 
-Infected (Pos) samples: use the filtered FASTQ directories produced in Step 7 (host-only reads).
+Infected samples (Pos): use filtered FASTQs (*_Arabidopsis_fastq/)
 
-Non-infected (Neg) samples: use the original FASTQ directories from sequencing (all reads are host).
+Non-infected samples (Neg): use original FASTQs from sequencing
 
-```bash 
-/CellRanger_Neg24hi_1_scRNAseq_ATH_Genome.sh
-/CellRanger_Neg24hi_2_scRNAseq_ATH_Genome.sh
-/CellRanger_Pos24hi_1_scRNAseq_ATH_Genome.sh
-/CellRanger_Pos24hi_2_scRNAseq_ATH_Genome.sh
+Run the scripts:
+```bash
+CellRanger_Neg24hpi_1_scRNAseq_ATH_Genome.sh
+CellRanger_Neg24hpi_2_scRNAseq_ATH_Genome.sh
+CellRanger_Pos24hpi_1_scRNAseq_ATH_Genome.sh
+CellRanger_Pos24hpi_2_scRNAseq_ATH_Genome.sh
 ```
-**📁 Step 9: Prepare Filtered Matrices for Downstream Analysis**
 
-After running Cell Ranger count (Step 8), each sample output directory contains a folder:
+Each script generates filtered_feature_bc_matrix/ for downstream Seurat integration.
 
-outs/filtered_feature_bc_matrix/
+**📁 Step 10: Prepare Filtered Matrices for Downstream Analysis**
 
+Each outs/filtered_feature_bc_matrix/ directory includes the three files required for downstream analysis:
 
-This folder includes the three core files required for downstream analysis in Seurat or other single-cell analysis packages:
+File	                  Description
+barcodes.tsv.gz	        List of high-quality cell barcodes.
+features.tsv.gz	        Gene annotation table linking IDs and gene names.
+matrix.mtx.gz	          Sparse count matrix of gene × barcode expression values.
 
-File	Description
-barcodes.tsv.gz	      List of cell barcodes corresponding to high-quality nuclei.
-features.tsv.gz	      Feature (gene) annotation table linking gene IDs and names.
-matrix.mtx.gz	        Sparse expression matrix storing counts for each gene × barcode pair.
-
-**Usage**
-These three files are used as input for loading count matrices into R
-
+**Usage** These three files are used as input for loading count matrices into R
