@@ -15,11 +15,11 @@ Gene Ontology (GO) enrichment and marker gene expression profiling further revea
 
 Step 1: Build a Combined Reference Genome
 
-'''bash
+   ```bash
 
 ./cellranger_mkref_Multiplespecies.sh
 
-'''
+```
 
 ✅ Check that the output directory Arabidopsis_thaliana_and_Pcap has been created.
 
