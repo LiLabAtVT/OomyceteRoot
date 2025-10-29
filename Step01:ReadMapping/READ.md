@@ -186,7 +186,7 @@ Add both executables to your $PATH.
 Run the following script for each infected sample (Pos24hpi_1, Pos24hpi_2):
 
 ```bash
-./Filter_and_convert_10X.sh
+/Filter_and_convert_10X.sh
 ```
 
 💡 subset-bam retains only the reads whose cell barcodes match the ones listed in each file produced in Step 6.
@@ -215,10 +215,10 @@ Infected (Pos) samples: use the filtered FASTQ directories produced in Step 7 (h
 Non-infected (Neg) samples: use the original FASTQ directories from sequencing (all reads are host).
 
 ```bash 
-./CellRanger_Neg24hi_1_scRNAseq_ATH_Genome.sh
-./CellRanger_Neg24hi_2_scRNAseq_ATH_Genome.sh
-./CellRanger_Pos24hi_1_scRNAseq_ATH_Genome.sh
-./CellRanger_Pos24hi_2_scRNAseq_ATH_Genome.sh
+/CellRanger_Neg24hi_1_scRNAseq_ATH_Genome.sh
+/CellRanger_Neg24hi_2_scRNAseq_ATH_Genome.sh
+/CellRanger_Pos24hi_1_scRNAseq_ATH_Genome.sh
+/CellRanger_Pos24hi_2_scRNAseq_ATH_Genome.sh
 ```
 **📁 Step 9: Prepare Filtered Matrices for Downstream Analysis**
 
