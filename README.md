@@ -11,6 +11,18 @@ Comparative analyses between infected and mock samples highlighted the activatio
 
 Gene Ontology (GO) enrichment and marker gene expression profiling further revealed that immune responses to P. capsici are cell-type specific and involve distinct sets of defense-related genes. Together, this study provides a comprehensive reference for host transcriptional reprogramming during early stages of oomycete infection and establishes a framework for exploring plant–pathogen interactions at single-cell resolution.
 
+***Requirements***:
+| Tool            | Version | Description                                       |
+| --------------- | ------- | ------------------------------------------------- |
+| R               | 4.4.2   | Statistical computing environment                 |
+| Seurat          | 5.3.0   | Single-nucleus data integration and visualization |
+| clusterProfiler | 4.14.6  | Gene ontology enrichment                 |
+| org.At.tair.db  | 3.20.0  | *Arabidopsis thaliana* gene annotation database   |
+| ggplot2         | 4.0.0   | Data visualization                                |
+| dplyr           | 1.1.4   | Data manipulation                                 |
+| enrichplot      | 1.26.6  | GO visualization                                  |
+| cowplot         | 1.2.0   | Plot combination and layout                       |
+
 🧬 **Mapping Single Nuclei RNA-seq Data**
 
 Step 1: Build a Combined Reference Genome
