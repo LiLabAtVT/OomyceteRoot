@@ -14,15 +14,20 @@ Gene Ontology (GO) enrichment and marker gene expression profiling further revea
 🧬 **Mapping Single Nuclei RNA-seq Data**
 
 Step 1: Build a Combined Reference Genome
+
 ./cellranger_mkref_Multiplespecies.sh
+
 ✅ Check that the output directory Arabidopsis_thaliana_and_Pcap has been created.
 
 Step 2: Run Cell Ranger on Raw Data
 Run the scripts:
+
 ./CellRanger_Neg24hi_1_scRNAseq.sh
+
 ./CellRanger_Pos24hpi_1_scRNAseq.sh
 
 Step 3: Generate Barcode Lists
+
 Run the following commands:
 
 awk -F',' 'NR > 1 && $4 == "Arabidopsis_thaliana" { print $1 }' gem_classification_Pos24hpi_1.csv > arabidopsis_barcodes.txt
