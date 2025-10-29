@@ -87,4 +87,67 @@ CellRanger_Pos24hpi_2_scRNAseq_Multi_Genome.sh
 
 This script executes the cellranger count command, specifying the appropriate sample FASTQ path and the multi-reference genome generated in Step 4.
 
+**🧬 Step 6: Separate Host vs Pathogen Barcodes (Infected samples: Pos24hpi_1, Pos24hpi_2)**
+
+After cellranger count (Step 5), each infected sample directory contains:
+
+outs/filtered_feature_bc_matrix/ — matrix for downstream analysis,
+
+outs/*.bam — alignments (used later),
+
+outs/gem_classification_<SAMPLE>.csv — per-barcode species call (Arabidopsis thaliana, Pcap, or Multiplet). 
+10x Genomics
++2
+10x Genomics
++2
+
+Do this for both infected samples to create organism-specific barcode lists.
+
+Commands (run from the folder containing the gem_classification_*.csv files)
+
+```bash
+# list the infected (Pos) samples you want to process
+SAMPLES=("Pos24hpi_1" "Pos24hpi_2")
+
+for S in "${SAMPLES[@]}"; do
+  CSV="gem_classification_${S}.csv"
+
+  # Host: Arabidopsis thaliana
+  awk -F',' 'NR > 1 && $4 == "Arabidopsis_thaliana" { print $1 }' \
+    "${CSV}" > "${S}_arabidopsis_barcodes.txt"
+
+  # Pathogen: Phytophthora capsici
+  awk -F',' 'NR > 1 && $4 == "Pcap" { print $1 }' \
+    "${CSV}" > "${S}_pcap_barcodes.txt"
+
+  # Multiplets: mixed droplets
+  awk -F',' 'NR > 1 && $4 == "Multiplet" { print $1 }' \
+    "${CSV}" > "${S}_multiplet_barcodes.txt"
+
+  echo "Wrote ${S}_arabidopsis_barcodes.txt, ${S}_pcap_barcodes.txt, ${S}_multiplet_barcodes.txt"
+done
+```
+
+What this does
+
+-F',' treats the CSV as comma-separated,
+
+NR > 1 skips the header,
+
+$4 selects the call column to filter Arabidopsis_thaliana, Pcap, or Multiplet,
+
+$1 prints the barcode (GEM) ID.
+
+Outputs created per sample
+
+Pos24hpi_1_arabidopsis_barcodes.txt
+Pos24hpi_1_pcap_barcodes.txt
+Pos24hpi_1_multiplet_barcodes.txt
+Pos24hpi_2_arabidopsis_barcodes.txt
+Pos24hpi_2_pcap_barcodes.txt
+Pos24hpi_2_multiplet_barcodes.txt
+
+
+**Notes**
+GEM classification and the gem_classification.csv file are standard outputs for mixed-species (“barnyard”) analyses in Cell Ranger. 
 
