@@ -25,9 +25,6 @@ Run the scripts:
 
 '''bash
 ./CellRanger_Neg24hi_1_scRNAseq.sh
-'''
-
-'''bash
 ./CellRanger_Pos24hpi_1_scRNAseq.sh
 '''
 
