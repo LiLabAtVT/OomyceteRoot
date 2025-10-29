@@ -14,25 +14,29 @@ Gene Ontology (GO) enrichment and marker gene expression profiling further revea
 🧬 **Mapping Single Nuclei RNA-seq Data**
 
 Step 1: Build a Combined Reference Genome
-
+'''
 ./cellranger_mkref_Multiplespecies.sh
-
+'''
 ✅ Check that the output directory Arabidopsis_thaliana_and_Pcap has been created.
 
 Step 2: Run Cell Ranger on Raw Data
 Run the scripts:
-
+'''
 ./CellRanger_Neg24hi_1_scRNAseq.sh
+'''
 
+'''
 ./CellRanger_Pos24hpi_1_scRNAseq.sh
+'''
 
 Step 3: Generate Barcode Lists
 
 Run the following commands:
-
+'''
 awk -F',' 'NR > 1 && $4 == "Arabidopsis_thaliana" { print $1 }' gem_classification_Pos24hpi_1.csv > arabidopsis_barcodes.txt
 awk -F',' 'NR > 1 && $4 == "Pcap" { print $1 }' gem_classification_Pos24hpi_1.csv > pcap_barcodes.txt
 awk -F','  'NR > 1 && $4 == "Multiplet" { print $1 }' gem_classification_Pos24hpi_1.csv > multiplet_barcodes.txt
+'''
 ✅ This will generate:
 
 arabidopsis_barcodes.txt (plant)
@@ -40,41 +44,46 @@ pcap_barcodes.txt (pathogen)
 multiplet_barcodes.txt
 Step 4: Filter and Convert BAM to FASTQ
 Run the filtering script:
-
+'''
 ./Filter_and_convert_10X.sh
+'''
 ✅ This will create two output folders:
 
 plant_fastq_output_<timestamp>
 pathogen_fastq_output_<timestamp>
 Inside the plant_fastq_output directory, combine the FASTQ files:
-
+'''
 cat bamtofastq_S1_L002_R1_00{1..9}.fastq.gz bamtofastq_S1_L002_R1_010.fastq.gz > Pos24hpi1_S1_L001_R1_001.fastq.gz
 
 cat bamtofastq_S1_L002_R2_00{1..9}.fastq.gz bamtofastq_S1_L002_R2_010.fastq.gz > Pos24hpi1_S1_L001_R2_001.fastq.gz
+'''
+
 Step 5: Build Arabidopsis Genome Only
+
+'''
 ./cellranger_mkref.sh
+'''
 Step 6: Run Cell Ranger on Filtered Plant FASTQs and Control Sample (Neg24hpi)
 Run the script:
-
+'''
 ./CellRanger_Pos24hpi_1_scRNAseq_Plant_Fastq.sh
 ./CellRanger_Neg24hi_1_scRNAseq.sh
+'''
+
 Step 7: Load and Integrate Data in R
 Open the script in RStudio: Integration_Pathogen_NonPathogen.R
+'''
   ./RScript
+  '''
+  
 🔔 Note:
 Always double-check the directory paths in each script before running.
 
-Steps Covered
 
-Build a Combined Reference
-Download FASTA and GTF files
-
-Arabidopsis genome and annotation from Ensembl Plants
-Pathogen genome (Phytophthora capsici) from NCBI (https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_016618375.1/)
-Build Cell Ranger-Compatible Reference
 
 Use makeref command to create a reference (https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-3p-references#multiple-species-4f40e4)
 Download Cell Ranger https://www.10xgenomics.com/support/software/cell-ranger/downloads#download-links
+'''
 #!/bin/bash
 #SBATCH --job-name=cellranger_mkref_multi      # Job name
 #SBATCH --nodes=1                              # Number of nodes
@@ -129,12 +138,16 @@ echo "cellranger mkref for multiple species completed successfully"
 date
 
 exit 0
+'''
+
 Run cellranger count to generate BAM and Barcode CSV Files
 Use cellranger count to generate:
 
 A BAM file containing aligned reads
 A CSV file with barcodes assigned to each species (plant and pathogen)
 This step uses the Build a Combined Reference created in the previous step.
+
+'''
 #!/bin/bash
 #SBATCH --job-name=Cellranger_Analysis_Pos24hpi_1  # Job name
 #SBATCH --nodes=1                       # Number of nodes
@@ -163,6 +176,8 @@ echo "Finished"
 date
 
 exit;
+'''
+'''
 #!/bin/bash
 #SBATCH --job-name=Cellranger_Analysis_Neg24hpi_1  # Job name
 #SBATCH --nodes=1                       # Number of nodes
