@@ -62,7 +62,7 @@ A new directory will be created:
 refdata-Arabidopsis_Pcapsici_MultiRef/
 This folder contains the combined indices and annotations required for read alignment and UMI counting.
 
-**🧫 Step 5: Run Cell Ranger Count for Infected and Non-Infected Samples**
+**🧫 Step 5: Run Cell Ranger Count for Infected Samples using Multi-Species Reference Genome**
 
 This step performs read alignment and UMI quantification for each single-nucleus RNA-seq sample using the multi-species reference genome created in Step 4.
 The same reference allows simultaneous mapping to both Arabidopsis thaliana (host) and Phytophthora capsici (pathogen).
@@ -82,7 +82,9 @@ Pos24hpi_1, Pos24hpi_2 → infected roots
 **2. Run Cell Ranger Count**
 
 Use the following SLURM script for the infected sample sample:
-Force_CellRanger_Pos24hpi_1_scRNAseq_MultiGenome.sh
-Force_CellRanger_Pos24hpi_2_scRNAseq_MultiGenome.sh
+CellRanger_Pos24hpi_1_scRNAseq_Multi_Genome.sh
+CellRanger_Pos24hpi_2_scRNAseq_Multi_Genome.sh
 
 This script executes the cellranger count command, specifying the appropriate sample FASTQ path and the multi-reference genome generated in Step 4.
+
+
