@@ -1,5 +1,5 @@
 
-##🧬 **Single-nucleus transcriptome analysis of *Arabidopsis thaliana* roots infected with *Phytophthora capsici***##
+# 🧬 **Single-nucleus transcriptome analysis of *Arabidopsis thaliana* roots infected with *Phytophthora capsici*** #
 
 #**Introduction**#
 
