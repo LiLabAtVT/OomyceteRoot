@@ -1,7 +1,7 @@
 
 # 🧬 **Single-nucleus transcriptome analysis of *Arabidopsis thaliana* roots infected with *Phytophthora capsici*** #
 
-#**Introduction**#
+## **Introduction** ##
 
 Understanding how plant roots coordinate immune responses at the cellular level is fundamental for dissecting host–pathogen interactions. In this study, we employed single-nucleus RNA sequencing (snRNA-seq) to profile the Arabidopsis thaliana root transcriptome following infection with the oomycete pathogen *Phytophthora capsici*.
 
@@ -14,7 +14,7 @@ Gene Ontology (GO) enrichment and marker gene expression profiling further revea
 This repository contains all scripts and workflows used for the analysis of single-nucleus RNA-seq (snRNA-seq) data from Arabidopsis thaliana roots infected with Phytophthora capsici (24 hours post infection).
 The pipeline integrates host–pathogen mapping, reference construction, data integration, clustering, differential expression, and Gene Ontology (GO) enrichment.
 
-**🧩 Requirements**
+## **🧩 Requirements** ##
 
 To reproduce this workflow, install the following tools and R packages with the specified versions (or newer):
 
@@ -23,7 +23,7 @@ Tool / Package	Version	Description
 <img width="814" height="446" alt="Screenshot 2025-10-30 at 10 38 45 AM" src="https://github.com/user-attachments/assets/2f1ede4e-6123-4ab1-9c8d-bb10390f1555" />
 
 
-**🧰 Installation**
+# **🧰 Installation** #
 ```bash 
 # CRAN packages
 install.packages(c("ggplot2", "dplyr", "cowplot"))
@@ -73,9 +73,9 @@ BiocManager::install(c("Seurat", "clusterProfiler", "org.At.tair.db", "enrichplo
 │
 └── main_README.md  ← (this file)
 ``` 
-**🧬 Pipeline Overview**
+## **🧬 Pipeline Overview** ##
 
-**Step 1 — Read Mapping & Reference Preparation**
+### **Step 1 — Read Mapping & Reference Preparation** ###
 
 Scripts:
 ```bash
@@ -85,7 +85,7 @@ Goal: build host-only and multi-species references and align reads with Cell Ran
 Outputs: multi-species reference (refdata-Arabidopsis_Pcapsici_MultiRef/),
 Arabidopsis-only reference (refdata-Arabidopsis_thaliana.TAIR10.59/), BAM files, filtered matrices.
 
-**Step 2 — Data Integration & UMAP Clustering**
+### **Step 2 — Data Integration & UMAP Clustering** ###
 
 Scripts:
 ```bash
@@ -94,7 +94,7 @@ Integration_Seurat_SCT.R, UMAP_ClusterID.R
 Integrates infected (Pos) and non-infected (Neg) samples using Seurat v5 SCTransform workflow, performs PCA, clustering, and UMAP visualization.
 Outputs: Integrated_Seurat_Object.rds, UMAP_Cluster_Labelled.png, Cluster_Metadata.csv
 
-**Step 3 — Marker Gene & Differential Expression**
+### **Step 3 — Marker Gene & Differential Expression** ###
 
 Script:
 ```bash
@@ -104,7 +104,7 @@ Identifies cluster-specific marker genes and DEGs between infected and control s
 Outputs:
 Cluster_Markers_All.csv, Infected_vs_NonInfected_DEG.csv, Volcano_DEG_Pos_vs_Neg.png, Top10_Markers_Heatmap.png
 
-**Step 4 — GO Enrichment and Functional Annotation**
+### **Step 4 — GO Enrichment and Functional Annotation** ###
 
 Scripts:
 ```bash
@@ -121,7 +121,7 @@ Performs:
 Outputs:
 GO_Enrichment_Results.csv, ImmuneDefense_HormoneResponse_GO.csv, GO_Enrichment_Dotplot.png
 
-**Step 5 — Visualization**
+### **Step 5 — Visualization** ###
 
 Scripts:
 ```bash
@@ -136,7 +136,7 @@ DotPlot_FunctionalGenes.R	Defense/hormone gene expression across clusters
 FeaturePlot_CellMarkers.R	UMAP of cluster-defining genes
 FeaturePlot_SelectedMarkers.R	UMAPs of selected functional marker genes
 
-**Step 6 — Quality Control and Summary Metrics**
+ ### **Step 6 — Quality Control and Summary Metrics** ###
 
 Scripts:
 ```bash
@@ -146,7 +146,7 @@ Quantifies cluster abundance and evaluates sequencing depth (UMIs).
 Outputs:
 Cluster_RelativeFraction_Barplot.png, UMI_Distribution_Violin.png, Cluster_CellNumber_RelativeFraction.csv
 
-**Step 7 — Focused Enrichment (Immune & Hormone Pathways)**
+ ### **Step 7 — Focused Enrichment (Immune & Hormone Pathways)** ###
 
 Scripts:
 ```bash
@@ -165,7 +165,8 @@ Ethylene-activated signaling pathway (GO:0009873)
 Outputs:
 GO_ImmuneDefense_Dotplot.png, GO_HormoneResponse_Dotplot.png
 
-🧠 Interpretation Summary
+## 🧠 Interpretation Summary ##
+
 | **Step**                 | **Biological Insight**                                                     |
 | ------------------------ | -------------------------------------------------------------------------- |
 | Integration & Clustering | Defines transcriptionally distinct root cell populations.                  |
