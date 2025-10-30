@@ -1,7 +1,7 @@
 
-🧬 **Single-nucleus transcriptome analysis of *Arabidopsis thaliana* roots infected with *Phytophthora capsici***
+##🧬 **Single-nucleus transcriptome analysis of *Arabidopsis thaliana* roots infected with *Phytophthora capsici***##
 
-**Introduction**
+#**Introduction**#
 
 Understanding how plant roots coordinate immune responses at the cellular level is fundamental for dissecting host–pathogen interactions. In this study, we employed single-nucleus RNA sequencing (snRNA-seq) to profile the Arabidopsis thaliana root transcriptome following infection with the oomycete pathogen *Phytophthora capsici*.
 
@@ -73,8 +73,9 @@ BiocManager::install(c("Seurat", "clusterProfiler", "org.At.tair.db", "enrichplo
 │
 └── main_README.md  ← (this file)
 ``` 
-🧬 Pipeline Overview
-Step 1 — Read Mapping & Reference Preparation
+**🧬 Pipeline Overview**
+
+**Step 1 — Read Mapping & Reference Preparation**
 
 Scripts:
 ```bash
@@ -84,28 +85,31 @@ Goal: build host-only and multi-species references and align reads with Cell Ran
 Outputs: multi-species reference (refdata-Arabidopsis_Pcapsici_MultiRef/),
 Arabidopsis-only reference (refdata-Arabidopsis_thaliana.TAIR10.59/), BAM files, filtered matrices.
 
-Step 2 — Data Integration & UMAP Clustering
+**Step 2 — Data Integration & UMAP Clustering**
 
 Scripts:
+```bash
 Integration_Seurat_SCT.R, UMAP_ClusterID.R
-
+```
 Integrates infected (Pos) and non-infected (Neg) samples using Seurat v5 SCTransform workflow, performs PCA, clustering, and UMAP visualization.
 Outputs: Integrated_Seurat_Object.rds, UMAP_Cluster_Labelled.png, Cluster_Metadata.csv
 
-Step 3 — Marker Gene & Differential Expression
+**Step 3 — Marker Gene & Differential Expression**
 
 Script:
+```bash
 CellMarkers_DEG_Analysis.R
-
+```
 Identifies cluster-specific marker genes and DEGs between infected and control samples.
 Outputs:
 Cluster_Markers_All.csv, Infected_vs_NonInfected_DEG.csv, Volcano_DEG_Pos_vs_Neg.png, Top10_Markers_Heatmap.png
 
-Step 4 — GO Enrichment and Functional Annotation
+**Step 4 — GO Enrichment and Functional Annotation**
 
 Scripts:
+```bash
 GO_Enrichment_Annotation.R, GO_Enrichment_ImmuneDefense.R, GO_Enrichment_HormoneResponse.R
-
+```
 Performs:
 
 🧠 global GO enrichment (BP / MF / CC)
@@ -117,11 +121,12 @@ Performs:
 Outputs:
 GO_Enrichment_Results.csv, ImmuneDefense_HormoneResponse_GO.csv, GO_Enrichment_Dotplot.png
 
-Step 5 — Visualization
+**Step 5 — Visualization**
 
 Scripts:
+```bash
 Heatmap_Markers.R, DotPlot_FunctionalGenes.R, FeaturePlot_CellMarkers.R, FeaturePlot_SelectedMarkers.R
-
+```
 Generates visual summaries for marker expression and functional genes.
 Outputs:
 
@@ -130,20 +135,23 @@ Heatmap_Markers.R	Expression of top markers per cluster
 DotPlot_FunctionalGenes.R	Defense/hormone gene expression across clusters
 FeaturePlot_CellMarkers.R	UMAP of cluster-defining genes
 FeaturePlot_SelectedMarkers.R	UMAPs of selected functional marker genes
-Step 6 — Quality Control and Summary Metrics
+
+**Step 6 — Quality Control and Summary Metrics**
 
 Scripts:
+```bash
 RelativeFraction_CellNumber.R, UMI_Distribution.R
-
+```
 Quantifies cluster abundance and evaluates sequencing depth (UMIs).
 Outputs:
 Cluster_RelativeFraction_Barplot.png, UMI_Distribution_Violin.png, Cluster_CellNumber_RelativeFraction.csv
 
-Step 7 — Focused Enrichment (Immune & Hormone Pathways)
+**Step 7 — Focused Enrichment (Immune & Hormone Pathways)**
 
 Scripts:
+```bash
 GO_Enrichment_ImmuneDefense.R, GO_Enrichment_HormoneResponse.R
-
+```
 Highlights GO terms such as:
 
 Defense response to oomycete (GO:0002239)
