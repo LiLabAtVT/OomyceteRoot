@@ -22,15 +22,6 @@ Tool / Package	Version	Description
 
 <img width="814" height="446" alt="Screenshot 2025-10-30 at 10 38 45 AM" src="https://github.com/user-attachments/assets/2f1ede4e-6123-4ab1-9c8d-bb10390f1555" />
 
-R	4.4.2	Statistical computing environment
-Seurat	5.3.0	Single-nucleus data integration and visualization
-clusterProfiler	4.14.6	Gene Ontology enrichment analysis
-org.At.tair.db	3.20.0	Arabidopsis thaliana gene annotation database
-ggplot2	4.0.0	Data visualization and figure generation
-dplyr	1.1.4	Data manipulation and summarization
-enrichplot	1.26.6	Visualization of GO enrichment results
-cowplot	1.2.0	Plot combination and figure layout
-
 
 **🧰 Installation**
 ```bash 
@@ -167,9 +158,12 @@ Outputs:
 GO_ImmuneDefense_Dotplot.png, GO_HormoneResponse_Dotplot.png
 
 🧠 Interpretation Summary
-Step	Biological Insight
-Integration & Clustering	Defines transcriptionally distinct root cell populations.
-Marker Analysis	Identifies genes defining clusters and infection-induced changes.
-GO Enrichment	Highlights biological processes for defense, hormone, and stress pathways.
-Visualization	Displays expression landscapes of tissue-specific and immune genes.
-QC Metrics	Ensures balanced representation and sequencing consistency.
+| **Step**                 | **Biological Insight**                                                     |
+| ------------------------ | -------------------------------------------------------------------------- |
+| Integration & Clustering | Defines transcriptionally distinct root cell populations.                  |
+| Marker Analysis          | Identifies genes defining clusters and infection-induced changes.          |
+| GO Enrichment            | Highlights biological processes for defense, hormone, and stress pathways. |
+| Visualization            | Displays expression landscapes of tissue-specific and immune genes.        |
+| QC Metrics               | Ensures balanced representation and sequencing consistency.                |
+
+
