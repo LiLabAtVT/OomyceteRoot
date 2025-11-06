@@ -14,6 +14,14 @@ rownames(Neg2) <- gsub("Arabidopsis_thaliana_gene:", "", rownames(Neg2))
 rownames(Pos1) <- gsub("gene:", "", rownames(Pos1))
 rownames(Pos2) <- gsub("gene:", "", rownames(Pos2))
 
+# input counts (genes x cells; matrix/dgCMatrix/data.frame)
+# a label stored in the Seurat object (e.g., "Arabidopsis_24hpi")
+# QC cap for nFeature_RNA (cells above this are filtered out)
+# number of highly variable genes to pick (e.g., 2000 or 3000)
+# how many PCs to use downstream (e.g., 20 or 30)
+# graph clustering granularity (e.g., 0.2–1.2; higher = more clusters)
+
+
 process_seurat_object <- function(counts_data, project_name,
                                   feature_upper, nfeatures,
                                   pca_dims, clustering_resolution) {
