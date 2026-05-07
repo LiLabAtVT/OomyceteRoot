@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+author: "tran chau"
+date: "2025-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(Seurat)
+
+qry <- readRDS("/Volumes/T7 Shield/Razan_pathogen/Data/Patho_Nonpatho_integration_07072025.Rds")
+
+qry_seurat_rename <- RenameIdents(object = qry, '0' = "0:Meristem_1", '1' = "1:Initial_cells", 
+                                  '2' = "2:Meristem_2", '3'= "3:Companion_cell", '4'= "4:Atrichoblast", 
+                                  '5' = "5:Epidermis/Cortex", '6' = "6:Procambium", '7'= "7:Rootcap", 
+                                  '8' = "8:Cortex", '9' = "9:G2M_phase", '10'= "10:Endodermis", '11' = "11:Trichoblast")
+
+# Plot the UMAP with cell type annotation
+
+DimPlot(qry_seurat_rename, reduction = "umap", label = TRUE, label.color = "black", label.size = 5) + NoLegend() 
+pdf("/Volumes/T7 Shield/Razan_pathogen/Figure/UMAP_finalanno_041726.pdf", width = 7.5, height = 5)
+DimPlot(qry_seurat_rename, reduction = "umap", label = TRUE, label.color = "black", label.size = 4.5) + NoLegend() 
+dev.off()
+```
+
