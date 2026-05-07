@@ -5,7 +5,7 @@ library(ggplot2)
 
 # --- Define input and output paths ---
 seurat_obj_path <- "/projects/intro2gds/Razan_2024/scRNA_Seq_Arab/Razan_Nina_Integration_Analysis/Script/OMG_Nina_Analysis/Razan2025/OutPut_2025/07072025/Patho_Nonpatho_integration_07072025.Rds"
-output_dir <- "/projects/songli_lab/RazanPlantPath_2025/Script_New_Cluster_ID/OutPut"
+output_dir <- "/projects/intro2gds/Razan_2026/PLant_Pathogen_2026/Step_20_QCtoUMAP/RScript"
 
 # Define output path for UMAP PDF and new Seurat object with cluster labels
 output_umap_pdf <- file.path(output_dir, "UMAP_cluster_labels_ID_07072025.pdf")
@@ -21,17 +21,17 @@ seurat_obj <- readRDS(seurat_obj_path)
 
 # --- Define cluster labels (match cluster IDs to biological interpretation) ---
 cluster_labels <- c(
-  '0' = "0:Meristem_1",
-  '1' = "1:Meristem_2", 
-  '2' = "2:Meristem_3",
-  '3'= "3:Pericycle", 
-  '4'= "4:Atrichoblast", 
-  '5' = "5:Rootcap_1", 
-  '6' = "6:Xylem", 
-  '7'= "7:Rootcap_2", 
-  '8' = "8:Cortex", 
-  '9' = "9:Meristem_4", 
-  '10'= "10:Endodermis", 
+  '0'  = "0:Meristem_1",
+  '1'  = "1:Initial_cells",
+  '2'  = "2:Meristem_2",
+  '3'  = "3:Companion_cell",
+  '4'  = "4:Atrichoblast",
+  '5'  = "5:Epidermis/Cortex",
+  '6'  = "6:Procambium",
+  '7'  = "7:Rootcap",
+  '8'  = "8:Cortex",
+  '9'  = "9:G2M_phase",
+  '10' = "10:Endodermis",
   '11' = "11:Trichoblast"
 )
 
