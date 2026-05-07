@@ -1,0 +1,89 @@
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(readr)
+  library(stringr)
+  library(forcats)
+})
+
+# ===============================================================
+# Paths
+# ===============================================================
+infile <- "/projects/intro2gds/Razan_2026/PLant_Pathogen_2026/Step_80_immune_defense_Go_enrichment_Hormone_response/GO_Enrichment_Defense_Oomycete_Filtered_GT3clusters_07072025.rds"
+
+out_dir <- "/projects/intro2gds/Razan_2026/PLant_Pathogen_2026/Step_80_immune_defense_Go_enrichment_Hormone_response"
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+out_csv_full     <- file.path(out_dir, "GO_Enrichment_Defense_Oomycete_04202026.csv")
+out_csv_filtered <- file.path(out_dir, "GO_Enrichment_Defense_Oomycete_Filtered_04202026.csv")
+out_pdf          <- file.path(out_dir, "GO_Enrichment_Defense_Oomycete_Filtered_04202026.pdf")
+
+# ===============================================================
+# Read RDS file
+# ===============================================================
+defense_terms_filtered <- readRDS(infile)
+
+cat("Columns in loaded RDS:\n")
+print(colnames(defense_terms_filtered))
+
+# ===============================================================
+# Save CSV files
+# ===============================================================
+write_csv(defense_terms_filtered, out_csv_full)
+write_csv(defense_terms_filtered, out_csv_filtered)
+
+cat("Defense CSV saved to:", out_csv_full, "\n")
+cat("Filtered defense CSV saved to:", out_csv_filtered, "\n")
+
+# ===============================================================
+# Plot
+# ===============================================================
+plot_df <- defense_terms_filtered
+plot_df$Description <- str_wrap(plot_df$Description, width = 60)
+
+p <- ggplot(
+  plot_df,
+  aes(
+    x = cluster_label,
+    y = fct_reorder(Description, -log10(p.adjust)),
+    color = group,
+    shape = group,
+    size = -log10(p.adjust)
+  )
+) +
+  geom_point() +
+  scale_size(range = c(3, 8))+
+  scale_x_discrete(drop = FALSE) +
+  scale_color_manual(values = c("Infected" = "firebrick3", "Non_Infected" = "steelblue3")) +
+  theme_minimal()+
+  labs(
+    title = "GO Enrichment: Defense Response",
+    x = "Cluster",
+    y = "GO Biological Process",
+    size = "-log10(adj. p-value)",
+    color = "Condition",
+    shape = "Condition"
+  ) +
+  guides(
+  color = guide_legend(
+    order = 1,
+    override.aes = list(size = 6)   # ⭐ increase legend point size
+  ),
+  shape = guide_legend(
+    order = 1,
+    override.aes = list(size = 6)   # ⭐ match color legend
+  ),
+  size  = guide_legend(order = 2)
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 24),
+    axis.text.y = element_text(size = 20),
+    axis.title.x =element_text(size= 30, face="bold"),
+    axis.title.y =element_text(size= 30, face="bold"),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text  = element_text(size = 20)
+  )
+
+ggsave(out_pdf, plot = p, width = 18, height = 11)
+cat("Filtered defense/oomycete dotplot saved to:", out_pdf, "\n")
