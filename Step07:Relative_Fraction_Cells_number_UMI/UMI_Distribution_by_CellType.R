@@ -4,7 +4,7 @@
 
 # ---------- Paths ----------
 seurat_path <- "/projects/intro2gds/Razan_2024/scRNA_Seq_Arab/Razan_Nina_Integration_Analysis/Script/OMG_Nina_Analysis/Razan2025/OutPut_2025/07072025/Patho_Nonpatho_integration_07072025.Rds"
-out_dir     <- "/projects/songli_lab/RazanPlantPath_2025/Script_New_Cluster_ID/OutPut"
+out_dir     <- "/projects/intro2gds/Razan_2026/PLant_Pathogen_2026/Step_70_Relative_Fraction_Cells_number_UMI/Script"
 
 # ---------- Libraries ----------
 suppressPackageStartupMessages({
@@ -23,17 +23,17 @@ message("✅ Seurat object loaded.")
 
 # ---------- Assign cell-type labels ----------
 cluster_labels <- c(
-  '0' = "0:Meristem_1",
-  '1' = "1:Meristem_2", 
-  '2' = "2:Meristem_3",
-  '3'= "3:Pericycle", 
-  '4'= "4:Atrichoblast", 
-  '5' = "5:Rootcap_1", 
-  '6' = "6:Xylem", 
-  '7'= "7:Rootcap_2", 
-  '8' = "8:Cortex", 
-  '9' = "9:Meristem_4", 
-  '10'= "10:Endodermis", 
+  '0'  = "0:Meristem_1",
+  '1'  = "1:Initial_cells",
+  '2'  = "2:Meristem_2",
+  '3'  = "3:Companion_cell",
+  '4'  = "4:Atrichoblast",
+  '5'  = "5:Epidermis/Cortex",
+  '6'  = "6:Procambium",
+  '7'  = "7:Rootcap",
+  '8'  = "8:Cortex",
+  '9'  = "9:G2M_phase",
+  '10' = "10:Endodermis",
   '11' = "11:Trichoblast"
 )
 
@@ -162,12 +162,12 @@ vln <- VlnPlot(
 ) +
   ggplot2::labs(
     title = "Total UMI per Cell Type (Infected vs Non_infected)",
-    x = "Cell Type",
+    x = "Cluster",
     y = paste0("Total UMI (", umi_col, ")")
   ) +
-  ggplot2::theme_bw(base_size = 14) +
+  ggplot2::theme_bw(base_size = 16) +
   ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1),
+    axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 1),
     plot.title = ggplot2::element_text(face = "bold", hjust = 0.5)
   )
 
@@ -186,18 +186,35 @@ p_box <- ggplot2::ggplot(meta_df, ggplot2::aes(
   ggplot2::scale_y_log10() +
   ggplot2::labs(
     title = "Dissemination of Total UMI by Cell Type and Condition",
-    x = "Cell Type",
+    x = "Cluster",
     y = paste0("Total UMI (log10 ", umi_col, ")")
   ) +
-  ggplot2::theme_bw(base_size = 12) +
+  ggplot2::theme_bw(base_size = 16) +
   ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
-    plot.title = ggplot2::element_text(face = "bold", hjust = 0.5)
+    axis.text.x = ggplot2::element_text(angle = 90, 
+    hjust = 1,
+    size = 26),
+    axis.text.y = ggplot2::element_text( size = 26),
+    axis.title.x = ggplot2::element_text(
+    #face = "bold", 
+    size = 32),
+    axis.title.y = ggplot2::element_text(
+    #face = "bold", 
+    size = 30),
+    plot.title = ggplot2::element_text(
+    #face = "bold", 
+    hjust = 0.5, 
+    size = 28)
   )
 
-ggsave(file.path(out_dir, "BoxPlot_UMI_by_CellType_and_Condition.png"),
-       plot = p_box, width = 12, height = 6, dpi = 300)
-message("🎨 Saved BoxPlot_UMI_by_CellType_and_Condition.png")
+ggsave(
+  filename = file.path(out_dir, "BoxPlot_UMI_by_CellType_and_Condition.pdf"),
+  plot = p_box,
+  width = 15,
+  height = 10,
+  units = "in",
+  device = "pdf"   # ✅ ensures PDF output
+)
 
+message("🎨 Saved BoxPlot_UMI_by_CellType_and_Condition.pdf")
 message("✅ Done. Outputs written to: ", out_dir)
-
